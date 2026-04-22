@@ -3,86 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Simulador de Entrevista - UNAM</title>
+    <title>Simulacro UNAM - Ingeniería</title>
     <style>
         :root { --primary: #27ae60; --dark: #2c3e50; --bg: #f4f7f6; }
-        body { font-family: -apple-system, system-ui, sans-serif; padding: 10px; background: var(--bg); margin: 0; }
-        .card { max-width: 500px; margin: 10px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 10px; background: var(--bg); margin: 0; -webkit-font-smoothing: antialiased; }
+        .card { max-width: 550px; margin: 10px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         h2 { color: var(--primary); font-size: 1.2em; margin: 0 0 5px 0; text-transform: uppercase; border-bottom: 2px solid #eee; padding-bottom: 10px; }
         .progress-bar { height: 6px; background: #e0e0e0; border-radius: 3px; margin: 20px 0; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--primary); width: 16%; transition: width 0.4s ease; }
-        .step { display: none; }
+        .step { display: none; animation: fadeIn 0.3s ease; }
         .step.active { display: block; }
-        label { display: block; font-size: 16px; line-height: 1.5; color: var(--dark); margin-bottom: 15px; text-align: justify; }
-        b { color: var(--primary); }
-        input[type="text"], textarea { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; background: #fff; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        /* Estilos para el Contexto */
+        .contexto { background: #ebf5ee; border-left: 4px solid var(--primary); padding: 12px; margin-bottom: 15px; font-size: 0.9em; color: #444; border-radius: 4px; }
+        .pregunta { font-weight: bold; color: var(--dark); display: block; margin-bottom: 10px; font-size: 1.05em; }
+
+        input[type="text"], textarea { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; background: #fff; -webkit-appearance: none; }
         textarea { resize: none; margin-top: 10px; }
         .btn-container { margin-top: 25px; display: flex; flex-direction: column; gap: 10px; }
-        button { width: 100%; padding: 18px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        button { width: 100%; padding: 18px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; -webkit-tap-highlight-color: transparent; }
         .btn-next { background: var(--primary); color: white; }
         .btn-next:disabled { background: #bdc3c7; color: #fff; cursor: not-allowed; opacity: 0.7; }
         .btn-final-area { display: none; }
         .btn-download { background: #3498db; color: white; margin-bottom: 10px; }
         .btn-copy { background: var(--dark); color: white; }
         .word-count { font-size: 0.8em; color: #7f8c8d; text-align: right; margin-top: 5px; font-weight: bold; }
-        .hint { font-size: 0.85em; color: #e67e22; margin-top: 15px; text-align: center; font-style: italic; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <div id="header-area">
-        <h2>Simulacro Unidad 1</h2>
+        <h2>Simulador Unidad 1 - UNAM</h2>
         <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
     </div>
 
     <form id="interviewForm" onsubmit="return false;">
         <div class="step active" id="step0">
-            <label><b>Identificación:</b><br>Ingresá tus datos para que tu reporte de evidencia sea válido.</label>
-            <input type="text" id="nombre" placeholder="Tu Nombre" oninput="validarID()">
-            <input type="text" id="apellido" placeholder="Tu Apellido" style="margin-top:10px" oninput="validarID()">
+            <label class="pregunta"><b>Identificación del Alumno:</b></label>
+            <input type="text" id="nombre" placeholder="Nombre completo" oninput="validarID()">
+            <input type="text" id="apellido" placeholder="Apellido" style="margin-top:10px" oninput="validarID()">
             <div class="btn-container">
-                <button type="button" id="btn0" class="btn-next" onclick="cambiarPaso(1)" disabled>Iniciar Simulación</button>
+                <button type="button" id="btn0" class="btn-next" onclick="cambiarPaso(1)" disabled>Iniciar Evaluación</button>
             </div>
         </div>
 
         <div class="step" id="step1">
-            <label>1. Llegas a la base en Añelo. El equipo tiene un retraso de 48h. Tu <b>supervisor</b> te ordena <b>que los obligues</b> a terminar hoy sea como sea. El capataz (30 años de experiencia) te frena y dice: <i>"Mirá, pibe, si forzamos la máquina ahora, se rompe y nos quedamos todos sin laburo"</i>.<br><br><b>¿Qué palabras exactas le decís al capataz para intentar cumplir la orden de tu supervisor sin perder el respeto del equipo?</b></label>
-            <textarea id="q1" rows="5" oninput="validarP(1)"></textarea>
+            <div class="contexto"><b>Contexto:</b> En el campo de petróleo, los retrasos cuestan miles de dólares por hora. Tu supervisor te presiona para terminar, pero el capataz (el que tiene la experiencia técnica real) te advierte sobre un riesgo inminente de rotura de equipo.</div>
+            <label class="pregunta">1. El capataz te dice: <i>"Si forzamos la máquina ahora, se rompe y nos quedamos sin laburo"</i>. ¿Qué palabras exactas le decís para intentar cumplir con el supervisor sin perder el respeto del equipo?</label>
+            <textarea id="q1" rows="5" oninput="validarP(1)" placeholder="Escribe tu respuesta aquí..."></textarea>
             <div id="count1" class="word-count">Palabras: 0 / mín. 35</div>
-            <div class="btn-container"><button type="button" id="btn1" class="btn-next" onclick="cambiarPaso(2)" disabled>Siguiente Situación</button></div>
+            <div class="btn-container"><button type="button" id="btn1" class="btn-next" onclick="cambiarPaso(2)" disabled>Siguiente</button></div>
         </div>
 
         <div class="step" id="step2">
-            <label>2. Detectás una fuga de gas menor. Tu <b>supervisor</b> te ordena por radio: <i>"Ignoralo, seguí operando, no podemos parar ahora por una pavada así"</i>. Sabés que si lo ignorás rompes el protocolo de seguridad (HSE), pero si lo informás por escrito, dejás expuesto a tu <b>supervisor</b> ante la gerencia.<br><br><b>Redactá el mensaje de texto o correo para fijar tu postura ante el supervisor sin que parezca una amenaza. ¿Lo registrás en el sistema oficial (SAP)? Justificá.</b></label>
-            <textarea id="q2" rows="6" oninput="validarP(2)"></textarea>
+            <div class="contexto"><b>Contexto:</b> Los protocolos de Seguridad (HSE) son la ley en Vaca Muerta. Ignorar una fuga es causal de despido, pero informarla por escrito (SAP) deja evidencia de que tu supervisor quiso ocultarla, creando un conflicto político grave.</div>
+            <label class="pregunta">2. Tu supervisor ordena ignorar una fuga menor. ¿Cómo redactás el mensaje de texto para fijar tu postura profesional? ¿Lo registrás en el sistema SAP a pesar de la orden? Justificá.</label>
+            <textarea id="q2" rows="5" oninput="validarP(2)" placeholder="Redacta tu mensaje y justificación..."></textarea>
             <div id="count2" class="word-count">Palabras: 0 / mín. 35</div>
-            <div class="btn-container"><button type="button" id="btn2" class="btn-next" onclick="cambiarPaso(3)" disabled>Siguiente Situación</button></div>
+            <div class="btn-container"><button type="button" id="btn2" class="btn-next" onclick="cambiarPaso(3)" disabled>Siguiente</button></div>
         </div>
 
         <div class="step" id="step3">
-            <label>3. Por un error de carga tuyo en SAP, enviaste un camión a una base equivocada ($5.000 de costo extra). Tu <b>supervisor</b> todavía no lo sabe, pero el cliente ya reclama los materiales de forma urgente.<br><br><b>Redactá el asunto y los primeros dos párrafos del mail que le enviarías a tu supervisor informando el error de forma inmediata. Sin excusas ni culpar al sistema.</b></label>
-            <textarea id="q3" rows="5" oninput="validarP(3)"></textarea>
+            <div class="contexto"><b>Contexto:</b> La responsabilidad (Accountability) define a un buen ingeniero. Los errores administrativos tienen impacto financiero directo. La transparencia inmediata es mejor que esperar a que el jefe descubra el error por el cliente.</div>
+            <label class="pregunta">3. Por un error tuyo, un camión fue a la base equivocada ($5.000 de costo extra). Redactá el correo a tu supervisor informando el error de forma inmediata, sin excusas ni culpar al sistema.</label>
+            <textarea id="q3" rows="5" oninput="validarP(3)" placeholder="Escribe el mail profesional..."></textarea>
             <div id="count3" class="word-count">Palabras: 0 / mín. 35</div>
-            <div class="btn-container"><button type="button" id="btn3" class="btn-next" onclick="cambiarPaso(4)" disabled>Siguiente Situación</button></div>
+            <div class="btn-container"><button type="button" id="btn3" class="btn-next" onclick="cambiarPaso(4)" disabled>Siguiente</button></div>
         </div>
 
         <div class="step" id="step4">
-            <label>4. 3ra semana en el tráiler en Añelo: sin señal, 5 grados bajo cero y equipo desmotivado. Un compañero te dice: <i>"Para qué nos esforzamos tanto si para esta empresa no les importamos nada"</i>.<br><br><b>¿Qué acción concreta (un hecho, no solo palabras) harías mañana a primera hora para demostrar liderazgo y que el equipo recupere el foco?</b></label>
-            <textarea id="q4" rows="5" oninput="validarP(4)"></textarea>
+            <div class="contexto"><b>Contexto:</b> El liderazgo se pone a prueba en las crisis. Trabajar en Añelo con frío y mala señal desmotiva a cualquiera. Un equipo desmotivado comete errores de seguridad. No basta con dar una charla motivacional; se necesitan hechos.</div>
+            <label class="pregunta">4. Un compañero dice: <i>"Para qué nos esforzamos si no les importamos"</i>. ¿Qué acción física y concreta harías mañana a primera hora para demostrar liderazgo y foco?</label>
+            <textarea id="q4" rows="5" oninput="validarP(4)" placeholder="Describe tu acción concreta..."></textarea>
             <div id="count4" class="word-count">Palabras: 0 / mín. 35</div>
-            <div class="btn-container"><button type="button" id="btn4" class="btn-next" onclick="cambiarPaso(5)" disabled>Siguiente Situación</button></div>
+            <div class="btn-container"><button type="button" id="btn4" class="btn-next" onclick="cambiarPaso(5)" disabled>Siguiente</button></div>
         </div>
 
         <div class="step" id="step5">
-            <label>5. El reclutador te dice: <i>"Tengo 100 CVs iguales al tuyo. Todos dicen que saben PowerBI"</i>.<br><br><b>¿Qué habilidad o actitud que NO esté escrita en tu CV te hace el candidato ideal para aguantar la presión de Vaca Muerta? Convenceme con un argumento potente de dos oraciones.</b></label>
-            <textarea id="q5" rows="4" oninput="validarP(5)"></textarea>
+            <div class="contexto"><b>Contexto:</b> En un mercado saturado, el título es solo el requisito de entrada. Las empresas buscan "actitud" y "resiliencia", algo difícil de medir en un CV pero fácil de ver en una entrevista de 2 minutos.</div>
+            <label class="pregunta">5. El reclutador tiene 100 CVs iguales al tuyo. ¿Qué actitud o habilidad que NO pusiste en el papel te hace el candidato ideal para aguantar la presión de Vaca Muerta?</label>
+            <textarea id="q5" rows="4" oninput="validarP(5)" placeholder="Convenceme en dos oraciones..."></textarea>
             <div id="count5" class="word-count">Palabras: 0 / mín. 35</div>
-            
             <div class="btn-container btn-final-area" id="finalBtns">
                 <button type="button" class="btn-download" onclick="descargar()">1. DESCARGAR EVIDENCIA (.txt)</button>
-                <button type="button" class="btn-copy" onclick="copiar()">2. COPIAR PARA IA</button>
-                <p class="hint">Descargá tu evidencia y luego copiala para la IA.</p>
+                <button type="button" class="btn-copy" onclick="copiar()">2. COPIAR PARA ANALIZAR CON IA</button>
             </div>
         </div>
     </form>
@@ -102,8 +108,8 @@
         const txt = document.getElementById('q'+n).value.trim();
         const words = txt ? txt.split(/\s+/).filter(w => w.length > 0).length : 0;
         document.getElementById('count'+n).innerText = `Palabras: ${words} / mín. ${minW}`;
-        if(n < 5) { document.getElementById('btn'+n).disabled = (words < minW); }
-        else { document.getElementById('finalBtns').style.display = (words >= minW) ? 'block' : 'none'; }
+        if(n < 5) document.getElementById('btn'+n).disabled = (words < minW);
+        else document.getElementById('finalBtns').style.display = (words >= minW) ? 'block' : 'none';
     }
 
     function cambiarPaso(n) {
@@ -117,40 +123,55 @@
     function getFullText(conPrompt) {
         const nom = document.getElementById('nombre').value.toUpperCase();
         const ape = document.getElementById('apellido').value.toUpperCase();
-        
-        const prompt = `Actúa como un Mentor Senior de Ingeniería Industrial en Vaca Muerta. Estás evaluando a un ingresante de 1er año que simula ser un graduado. Tu tono es exigente y realista, pero orientador.
-
-TAREA:
-1. Analiza las siguientes respuestas bajo el modelo del 'Iceberg Profesional'. 
-2. Para cada una de las situaciones, Habla de Habilidades Blandas (Comunicación, Ética, Liderazgo, Responsabilidad) según sea el caso y hazlo de forma clara y directa. No pase su respuesta en forma de tabla. Debe tener suficiente contenido para que el alumno comprenda adecuadamente.
-3. Señala qué pasaría en la realidad del campo con su respuesta (sé honesto y duro si es necesario).
-4. EN LUGAR DE NOMBRAR MATERIAS, sugiere 3 ACCIONES CONCRETAS que el alumno puede hacer durante su carrera universitaria para mejorar en habilidades blandas (ej: unirse a grupos de estudiantes, buscar roles de liderazgo en proyectos, realizar voluntariados, tomar talleres de comunicación, etc.).
-5. Finaliza vinculando su desempeño con la Paradoja de la Automatización: explica que su valor futuro como ingeniero será aportar el criterio humano que un sistema automatizado no posee.\n\nRESPUESTAS:\n`;
-
+        const prompt = `Actúa como un Mentor Senior de Ingeniería Industrial en Vaca Muerta. Estás evaluando a un ingresante de 1er año que simula ser un graduado.\n\nTAREA:\n1. Analiza las siguientes respuestas bajo el modelo del 'Iceberg Profesional'.\n2. Para cada una de las situaciones, Habla de Habilidades Blandas (Comunicación, Ética, Liderazgo, Responsabilidad) y hazlo de forma clara y directa. NO uses tablas. Debe tener contenido profundo.\n3. Señala qué pasaría en la realidad del campo con su respuesta (sé honesto y duro).\n4. Sugiere 3 ACCIONES CONCRETAS universitarias para mejorar.\n5. Finaliza vinculando su desempeño con la Paradoja de la Automatización.\n\nRESPUESTAS DE ${nom} ${ape}:\n\n`;
         let res = conPrompt ? prompt : `EVIDENCIA UNIDAD 1: ${ape}, ${nom}\n---------------------------------------\n`;
-        for(let i=1; i<=5; i++) { res += `SITUACIÓN ${i}: ${document.getElementById('q'+i).value}\n\n`; }
+        for(let i=1; i<=5; i++) res += `SITUACIÓN ${i}: ${document.getElementById('q'+i).value}\n\n`;
         return res;
     }
 
     function descargar() {
         const blob = new Blob([getFullText(false)], { type: 'text/plain' });
         const a = document.createElement('a');
-        a.download = `Unidad1_${document.getElementById('apellido').value}.txt`;
+        a.download = `Evidencia_U1_${document.getElementById('apellido').value}.txt`;
         a.href = URL.createObjectURL(blob);
         a.click();
     }
 
+    // MÉTODO COMPATIBLE CON IPHONE (iOS SAFARI)
     function copiar() {
         const txt = getFullText(true);
+        
+        // Intento 1: API Moderna
         if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(txt).then(() => alert("¡Copiado! Pégalo en ChatGPT o Gemini."));
+            navigator.clipboard.writeText(txt).then(() => {
+                alert("¡Copiado con éxito! Ahora pegalo en Gemini o ChatGPT.");
+            }).catch(err => {
+                usarMetodoFallback(txt);
+            });
         } else {
-            const temp = document.createElement("textarea");
-            temp.value = txt; document.body.appendChild(temp);
-            temp.select(); document.execCommand("copy");
-            document.body.removeChild(temp);
-            alert("¡Copiado! Pégalo en la IA.");
+            usarMetodoFallback(txt);
         }
+    }
+
+    function usarMetodoFallback(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        // Aseguramos que sea invisible pero esté en el DOM
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        textArea.style.top = "0";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            const successful = document.execCommand('copy');
+            if(successful) alert("¡Copiado con éxito! Pegalo en la IA.");
+            else alert("Tu navegador bloqueó el copiado. Por favor, selecciona el texto manualmente.");
+        } catch (err) {
+            alert("Error al copiar. Por favor usa una PC o Chrome.");
+        }
+        document.body.removeChild(textArea);
     }
 </script>
 </body>
